@@ -1,75 +1,67 @@
-# React + TypeScript + Vite
+# Arquitetura do CineDash
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Preview do CineDash](./public/header.png)
 
-Currently, two official plugins are available:
+## Geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O **CineDash** é um projeto pessoal desenvolvido com o objetivo de experimentar novas arquiteturas de software e explorar diferentes estratégias de estilização de componentes. 
 
-## React Compiler
+Para a organização do código, utilizei uma abordagem modular inspirada nos conceitos de Feature-Sliced Design (FSD). O foco principal foi testar na prática a separação rigorosa de responsabilidades da aplicação, garantindo que regras de negócio, componentes visuais, consumo de API e gerenciamento de estado não ficassem acoplados.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A estrutura foi organizada nas seguintes camadas:
 
-## Expanding the ESLint configuration
+- `app`: Configurações globais, provedores e rotas.
+- `pages`: Páginas da aplicação que compõem as telas principais.
+- `widgets`: Blocos autônomos de UI que combinam features e entidades.
+- `features`: Funcionalidades práticas focadas no usuário (ex: busca, filtros, autenticação).
+- `entities`: Domínio do negócio e modelos principais (ex: filmes, gêneros).
+- `shared`: Recursos reutilizáveis, utilitários, hooks, chamadas de API e design system base.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Por se tratar de um ambiente de testes e aprendizado, o Feature-Sliced Design não foi aplicado de forma rígida. A estrutura foi adaptada para manter o projeto pragmático, priorizando a legibilidade, facilidade de manutenção e flexibilidade no desenvolvimento dos componentes.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Estrutura do projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+src/
+├── app/
+│   ├── providers/
+│   └── router/
+│
+├── components/
+│   └── ui/
+│
+├── entities/
+│   ├── genre/
+│   └── movie/
+│
+├── features/
+│   ├── auth/
+│   ├── movie-filters/
+│   ├── movie-pagination/
+│   ├── movie-search/
+│   ├── theme/
+│   └── watchlist/
+│
+├── pages/
+│   ├── discover/
+│   ├── login/
+│   ├── movie-details/
+│   └── watchlist/
+│
+├── shared/
+│   ├── api/
+│   ├── config/
+│   ├── hooks/
+│   ├── lib/
+│   └── types/
+│
+├── test/
+│
+└── widgets/
+    ├── app-shell/
+    └── movie-grid/
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+> **P.S.:** A aplicação foi construída para fins de estudo e experimentação — alimentada por código, café e muito punk rock tocando ao fundo.
